@@ -1,7 +1,10 @@
 {
   "root": true,
-  "extends": [
-    "plugin:vue/essential",
-    "@vue/airbnb"
-  ]
+  "extends": ["plugin:vue/essential", "@vue/airbnb"],
+  "rules": {
+    "no-mixed-operators": 0,
+    "no-underscore-dangle": 0,
+    "no-param-reassign": 0,
+    "no-shadow": 0
+  }
 }
