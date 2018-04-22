@@ -8,6 +8,7 @@ People have to move, especially international students. It's very unlikely that 
 
 # To Do
 
+* [ ] Edu email verification
 * [ ] Front-end input validation
 * [ ] Search
 * [ ] Geo-search

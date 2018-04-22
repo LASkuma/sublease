@@ -3,7 +3,7 @@
     <mt-tab-container
       v-model="active">
       <mt-tab-container-item id="home">
-        <h1>home</h1>
+        <PostList :posts="posts" />
       </mt-tab-container-item>
       <mt-tab-container-item id="new">
         <NewPost />
@@ -33,11 +33,14 @@
 import { mapState } from 'vuex';
 import { Toast } from 'mint-ui';
 
+import PostList from '../components/PostList.vue';
 import NewPost from '../components/NewPost.vue';
 import Settings from '../components/Settings.vue';
+import * as Posts from '../graphql/posts';
 
 export default {
   components: {
+    PostList,
     NewPost,
     Settings,
   },
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       active: 'home',
+      posts: [],
     };
   },
 
@@ -52,6 +56,12 @@ export default {
     ...mapState({
       authenticated: state => state.user.authenticated,
     }),
+  },
+
+  apollo: {
+    posts: {
+      query: Posts.queries.posts,
+    },
   },
 
   watch: {

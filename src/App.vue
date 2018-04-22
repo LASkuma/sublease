@@ -14,5 +14,10 @@
 .mint-cell-text {
   font-family: 'system-ui';
 }
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue';
+}
 </style>
 

@@ -25,6 +25,17 @@ export const fragments = {
   `,
 };
 
+export const queries = {
+  posts: gql`
+    query Posts {
+      posts {
+        ...SimplePost
+      }
+    }
+    ${fragments.post}
+  `,
+};
+
 export const helpers = {
   createPost: gql`
     mutation CreatePost($lease: LeaseInput!) {
