@@ -186,6 +186,11 @@ export default {
         variables: {
           lease,
         },
+        update: (store, { data: { createPost } }) => {
+          const data = store.readQuery({ query: Posts.queries.posts });
+          data.posts.unshift(createPost);
+          store.writeQuery({ query: Posts.queries.posts, data });
+        },
       });
 
       try {
