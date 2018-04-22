@@ -182,7 +182,7 @@ export default {
 
       const uploadImagesPromise = posts.uploadImages(images, key);
       const createPostPromise = this.$apollo.mutate({
-        mutation: Posts.helpers.createPost,
+        mutation: Posts.mutations.createPost,
         variables: {
           lease,
         },

@@ -34,9 +34,18 @@ export const queries = {
     }
     ${fragments.post}
   `,
+
+  postById: gql`
+    query GetPostById($id: ID!) {
+      postById(id: $id) {
+        ...SimplePost
+      }
+    }
+    ${fragments.post}
+  `,
 };
 
-export const helpers = {
+export const mutations = {
   createPost: gql`
     mutation CreatePost($lease: LeaseInput!) {
       createPost(lease: $lease) {
@@ -45,4 +54,15 @@ export const helpers = {
     }
     ${fragments.post}
   `,
+};
+
+export const helpers = {
+  getPostById(id) {
+    return {
+      query: queries.postById,
+      variables: {
+        id,
+      },
+    };
+  },
 };

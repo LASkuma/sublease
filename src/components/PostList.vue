@@ -3,7 +3,9 @@
     <PostListItem
       v-for="post in posts"
       :key="post.id"
-      :post="post"/>
+      :post="post"
+      @click.native="$router.push({ name: 'post', params: { id: post.id }})"
+    />
   </div>
 </template>
 
@@ -23,3 +25,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#post-list {
+  margin-bottom: 50px;
+}
+</style>
+

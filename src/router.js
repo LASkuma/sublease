@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Challenge from './views/Challenge.vue';
 import Signup from './views/Signup.vue';
+import Post from './views/Post.vue';
 
 import store from './store';
 
@@ -52,6 +53,12 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: Signup,
+    },
+    {
+      path: '/post/:id',
+      name: 'post',
+      component: Post,
+      props: true,
     },
   ],
 });
