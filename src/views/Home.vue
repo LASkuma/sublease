@@ -6,7 +6,7 @@
         <PostList :posts="posts" />
       </mt-tab-container-item>
       <mt-tab-container-item id="new">
-        <NewPost />
+        <NewPost @post="active = 'home'"/>
       </mt-tab-container-item>
       <mt-tab-container-item id="settings">
         <Settings @logout="active = 'home'"/>

@@ -12,6 +12,7 @@
     />
     <mt-cell title="State" />
     <mt-picker
+      ref="statePickerComponent"
       :slots="statePicker"
       :visibleItemCount="3"
       @change="onStateChange"
@@ -77,6 +78,7 @@
       value="Bedroom or Living room"
     />
     <mt-picker
+      ref="typePickerComponent"
       :slots="typePicker"
       :visibleItemCount="3"
       @change="onTypeChange"
@@ -116,6 +118,8 @@ export default {
       lease: {
         state: states[0],
         type: 'Bedroom',
+        from: new Date(),
+        to: new Date(),
       },
       selectState: false,
       statePicker: [
@@ -128,26 +132,17 @@ export default {
           values: ['Bedroom', 'Living Room'],
         },
       ],
+      loading: false,
     };
   },
 
   computed: {
     displayFrom() {
-      if (!this.lease.from) {
-        return 'Required';
-      }
       return moment(this.lease.from).format('YYYY/MM/DD');
     },
 
     displayTo() {
-      if (!this.lease.to) {
-        return 'Optional';
-      }
       return moment(this.lease.to).format('YYYY/MM/DD');
-    },
-
-    loading() {
-      return this.$apollo.loading;
     },
   },
 
@@ -171,22 +166,40 @@ export default {
     },
 
     async handleSubmit() {
+      this.loading = true;
+      const { lease } = this;
+      this.lease = {
+        state: states[0],
+        type: 'Bedroom',
+        from: new Date(),
+        to: new Date(),
+      };
+
       const key = uuid();
       const images = Array.from(this.$refs.pictures.files);
-      this.lease.pictureId = key;
-      this.lease.pictureNumber = images.length;
+      lease.pictureId = key;
+      lease.pictureNumber = images.length;
 
       const uploadImagesPromise = posts.uploadImages(images, key);
       const createPostPromise = this.$apollo.mutate({
         mutation: Posts.helpers.createPost,
         variables: {
-          lease: this.lease,
+          lease,
         },
       });
 
       try {
         await Promise.all([uploadImagesPromise, createPostPromise]);
+
+        this.loading = false;
+        this.$refs.statePickerComponent.setSlotValue(0, states[0]);
+        this.$refs.typePickerComponent.setSlotValue(0, 'Bedroom');
+
+        Toast('Post Success');
+        this.$emit('post');
       } catch (err) {
+        this.lease = lease;
+        this.loading = false;
         Toast(err.message);
       }
     },
