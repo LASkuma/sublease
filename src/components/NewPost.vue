@@ -66,7 +66,10 @@
       placeholder="Required"
       v-model="lease.bathrooms"
     />
-    <mt-cell title="Type of listing Room" value="Bedroom or Living room"/>
+    <mt-cell
+      title="Type of listing Room"
+      value="Bedroom or Living room"
+    />
     <mt-picker
       :slots="typePicker"
       :visibleItemCount="3"
