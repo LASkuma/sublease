@@ -28,6 +28,12 @@
       placeholder="Required"
       v-model="lease.description"
     />
+    <mt-field
+      label="Price"
+      type="number"
+      placeholder="Required"
+      v-model="lease.price"
+    />
     <mt-cell
       title="Sublease From"
       :value="displayFrom"
@@ -75,26 +81,40 @@
       :visibleItemCount="3"
       @change="onTypeChange"
     />
+    <mt-cell
+      title="Select Pictures"
+      value="Required (Max 9)"
+    />
+    <input
+      type="file"
+      ref="pictures"
+      multiple
+      accept="image/*"
+    />
+    <mt-button
+      type="primary"
+      size="large"
+      @click.native="handleSubmit"
+    >
+      Submit
+    </mt-button>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import uuid from 'uuid-random';
+import { Toast, Indicator } from 'mint-ui';
+
 import states from '../utils/states';
+import posts from '../api/posts';
+import * as Posts from '../graphql/posts';
 
 export default {
   data() {
     return {
       lease: {
-        address: '',
-        building: '',
         state: states[0],
-        city: '',
-        description: '',
-        from: null,
-        to: null,
-        bedrooms: null,
-        bathrooms: null,
         type: 'Bedroom',
       },
       selectState: false,
@@ -125,6 +145,20 @@ export default {
       }
       return moment(this.lease.to).format('YYYY/MM/DD');
     },
+
+    loading() {
+      return this.$apollo.loading;
+    },
+  },
+
+  watch: {
+    loading(newVal) {
+      if (newVal) {
+        Indicator.open();
+      } else {
+        Indicator.close();
+      }
+    },
   },
 
   methods: {
@@ -134,6 +168,27 @@ export default {
 
     onTypeChange(picker, values) {
       [this.lease.type] = values;
+    },
+
+    async handleSubmit() {
+      const key = uuid();
+      const images = Array.from(this.$refs.pictures.files);
+      this.lease.pictureId = key;
+      this.lease.pictureNumber = images.length;
+
+      const uploadImagesPromise = posts.uploadImages(images, key);
+      const createPostPromise = this.$apollo.mutate({
+        mutation: Posts.helpers.createPost,
+        variables: {
+          lease: this.lease,
+        },
+      });
+
+      try {
+        await Promise.all([uploadImagesPromise, createPostPromise]);
+      } catch (err) {
+        Toast(err.message);
+      }
     },
   },
 };
