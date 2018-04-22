@@ -51,7 +51,7 @@
       confirmText="Confirm"
       ref="to"
       type="date"
-      :startDate="new Date()"
+      :startDate="lease.from || new Date()"
       v-model="lease.to"
     />
     <mt-field
