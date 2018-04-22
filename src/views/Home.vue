@@ -1,22 +1,45 @@
 <template>
-  <div class="home">
-    <img src="../assets/logo.png">
-    <input ref="upload" id="upload" type="file" multiple="true" accept="image/*" />
-    <button @click="handleClick">hi</button>
+  <div>
+    <mt-tab-container
+      v-model="active">
+      <mt-tab-container-item id="home">
+        <h1>home</h1>
+      </mt-tab-container-item>
+      <mt-tab-container-item id="new">
+        <NewPost />
+      </mt-tab-container-item>
+      <mt-tab-container-item id="settings">
+        <h1>settings</h1>
+      </mt-tab-container-item>
+    </mt-tab-container>
+    <mt-tabbar
+      v-model="active"
+      :fixed="true"
+    >
+      <mt-tab-item id="home">
+        <img slot="icon" src="../assets/home.png">
+      </mt-tab-item>
+      <mt-tab-item id="new">
+        <img slot="icon" src="../assets/post.png">
+      </mt-tab-item>
+      <mt-tab-item id="settings">
+        <img slot="icon" src="../assets/settings.png">
+      </mt-tab-item>
+    </mt-tabbar>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import posts from '../api/posts';
+import NewPost from '../components/NewPost.vue';
 
 export default {
-  name: 'home',
-  methods: {
-    handleClick() {
-      console.log(this.$refs.upload.files);
-      posts.uploadImages(Array.from(this.$refs.upload.files), '1');
-    },
+  components: {
+    NewPost,
+  },
+  data() {
+    return {
+      active: 'home',
+    };
   },
 };
 </script>
