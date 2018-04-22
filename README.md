@@ -13,3 +13,4 @@ People have to move, especially international students. It's very unlikely that 
 * [ ] Geo-search
 * [ ] Prerender for better SEO
 * [ ] Share to Wechat/FB
+* [ ] i18n
