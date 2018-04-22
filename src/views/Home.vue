@@ -30,6 +30,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { Toast } from 'mint-ui';
+
 import NewPost from '../components/NewPost.vue';
 import Settings from '../components/Settings.vue';
 
@@ -38,10 +41,30 @@ export default {
     NewPost,
     Settings,
   },
+
   data() {
     return {
       active: 'home',
     };
+  },
+
+  computed: {
+    ...mapState({
+      authenticated: state => state.user.authenticated,
+    }),
+  },
+
+  watch: {
+    active(newVal, oldVal) {
+      if (
+        (newVal === 'new' || newVal === 'settings') &&
+        this.authenticated !== 1
+      ) {
+        this.active = oldVal;
+        Toast('Please login first');
+        this.$router.push('/login');
+      }
+    },
   },
 };
 </script>

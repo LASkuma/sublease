@@ -34,11 +34,13 @@ export default {
       confirm: '',
     };
   },
+
   computed: {
     ...mapState({
       loading: state => state.user.loading,
     }),
   },
+
   watch: {
     loading(newVal) {
       if (newVal) {
@@ -48,6 +50,7 @@ export default {
       }
     },
   },
+
   methods: {
     ...mapActions(['passwordChallenge']),
     async handleSubmit() {
