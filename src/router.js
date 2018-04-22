@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Challenge from './views/Challenge.vue';
+import Signup from './views/Signup.vue';
 
 import store from './store';
 
@@ -46,6 +47,11 @@ export default new Router({
       name: 'challenge',
       component: Challenge,
       beforeEnter: loginGuard('/challenge'),
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup,
     },
   ],
 });

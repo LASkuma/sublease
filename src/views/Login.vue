@@ -13,11 +13,19 @@
       />
     </div>
     <mt-button
+      id="login-btn"
       type="primary"
       size="large"
       @click.native="handleLogin"
     >
       Login
+    </mt-button>
+    <mt-button
+      type="default"
+      size="large"
+      @click.native="handleSignup"
+    >
+      Signup
     </mt-button>
   </div>
 </template>
@@ -51,6 +59,7 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
+
     async handleLogin() {
       try {
         const result = await this.login(this.user);
@@ -63,6 +72,10 @@ export default {
         Toast(e.message);
       }
     },
+
+    handleSignup() {
+      this.$router.push('/signup');
+    },
   },
 };
 </script>
@@ -71,5 +84,9 @@ export default {
 .input {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+#login-btn {
+  margin-bottom: 10px;
 }
 </style>
