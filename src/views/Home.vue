@@ -9,7 +9,7 @@
         <NewPost />
       </mt-tab-container-item>
       <mt-tab-container-item id="settings">
-        <h1>settings</h1>
+        <Settings @logout="active = 'home'"/>
       </mt-tab-container-item>
     </mt-tab-container>
     <mt-tabbar
@@ -31,10 +31,12 @@
 
 <script>
 import NewPost from '../components/NewPost.vue';
+import Settings from '../components/Settings.vue';
 
 export default {
   components: {
     NewPost,
+    Settings,
   },
   data() {
     return {
