@@ -4,7 +4,7 @@
       v-for="post in posts"
       :key="post.id"
       :post="post"
-      @click.native="$router.push({ name: 'post', params: { id: post.id }})"
+      @click.native="handleClick(post.id)"
     />
   </div>
 </template>
@@ -21,6 +21,12 @@ export default {
     posts: {
       type: Array,
       required: true,
+    },
+  },
+
+  methods: {
+    handleClick(id) {
+      window.location.href = `${process.env.VUE_APP_POST_ROOT}/${id}`;
     },
   },
 };
